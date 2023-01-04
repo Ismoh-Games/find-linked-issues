@@ -1,0 +1,35 @@
+name: find-linked-issues
+
+author: Ismoh-Games Ismoh
+
+description: Marketplace action for finding the linked issues of a pull request.
+
+inputs:
+  token:
+    description: The GitHub token to use for authentication.
+    required: true
+  repo:
+    description: The repository to use for searching issues. (optional)
+    required: false
+    default: ${{ github.repository }}
+  pull-request-number:
+    description: The pull request number. (optional)
+    required: false
+    default: ${{ github.event.pull_request.number }}
+  copy-issues-labels:
+    description: Copy the labels of the linked issues to the pull request. (optional)
+    required: false
+    default: 'false'
+  
+outputs:
+  linked-issues:
+    description: "List of issues that are linked to the pull request, i.e. `[\"1\", \"2\", \"4\", \"82\", \"12\"]`"
+    #value: ${{ steps.find-linked-issues.outputs.linked-issues }}
+    
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+
+branding:
+  icon: 'link'
+  color: 'purple'
