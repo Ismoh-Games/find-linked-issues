@@ -61,7 +61,14 @@ def main():
     response = requests.get("https://api.github.com/search/issues?q=", params=params)
 
     if response.status_code != 200:
+        print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
         raise RuntimeError(f"Error fetching issues: {response.text}")
+
+    issues = response.json()
+
+    print(f"Issues fetched successfully: {issues}")
+    print(f"is-pull-request-linked-to-issues=true >> $GITHUB_OUTPUT")
+    print(f"linked-issues={issues} >> $GITHUB_OUTPUT")
 
 
 if __name__ == "__main__":
