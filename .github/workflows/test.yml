@@ -1,7 +1,8 @@
 name: Test Workflow
 on: push
 jobs:
-  first-job:
+  test-workflow-itself:
+    name: Test workflow itself
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
