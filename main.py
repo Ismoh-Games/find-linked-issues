@@ -17,27 +17,35 @@ def main():
     # if not token:
     #     raise MissingEnvironmentVariable("`token` environment variable not found")
 
-    repository = os.environ['INPUT_REPOSITORY']
-    if not repository:
-        repository = os.environ['GITHUB_CONTEXT'].repository
-    if not repository:
-        raise MissingEnvironmentVariable("`repository` environment variable not found")
+    repository = None
+    try:
+        repository = os.environ['INPUT_REPOSITORY']
+    except KeyError:
+        if not repository:
+            repository = os.environ['GITHUB_CONTEXT'].repository
+        if not repository:
+            raise MissingEnvironmentVariable("`repository` environment variable not found")
 
-    pull_request_number = os.environ['INPUT_PULL_REQUEST_NUMBER']
-    if not pull_request_number:
-        pull_request_number = os.environ['GITHUB_CONTEXT'].event.number
-    if not pull_request_number:
-        raise MissingEnvironmentVariable("`pull-request-number` environment variable not found")
+    pull_request_number = None
+    try:
+        pull_request_number = os.environ['INPUT_PULL_REQUEST_NUMBER']
+    except KeyError:
+        if not pull_request_number:
+            pull_request_number = os.environ['GITHUB_CONTEXT'].event.number
+        if not pull_request_number:
+            raise MissingEnvironmentVariable("`pull-request-number` environment variable not found")
 
-    copy_issues_labels = os.environ['INPUT_COPY_ISSUES_LABELS']
-    if not copy_issues_labels:
-        # raise MissingEnvironmentVariable("`copy-issues-labels` environment variable not found")
-        copy_issues_labels = False
+    copy_issues_labels = None
+    try:
+        copy_issues_labels = os.environ['INPUT_COPY_ISSUES_LABELS']
+    except KeyError:
+        if not copy_issues_labels:
+            copy_issues_labels = False
 
-    body = os.environ['BODY']
-    if not body:
+    body = None
+    try:
         body = os.environ['GITHUB_CONTEXT'].event.pull_request.body
-    if not body:
+    except KeyError:
         raise MissingEnvironmentVariable("`body` environment variable not found")
 
     print("Environment variables fetched successfully")
