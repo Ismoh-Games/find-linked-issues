@@ -1,7 +1,17 @@
 name: Test Workflow
-on: 
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - closed 
   pull_request_target:
-    types: [ opened, edited, synchronize, closed ]
+    types:
+      - opened
+      - edited
+      - synchronize
+      - closed
 jobs:
   test-workflow-itself:
     name: Test workflow itself
