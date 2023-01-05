@@ -23,17 +23,17 @@ def main():
         raise MissingEnvironmentVariable("`repository` environment variable not found")
 
     try:
-        pull_request_number = os.environ['INPUT_PULL_REQUEST_NUMBER']
+        pull_request_number = os.environ['INPUT_PULL-REQUEST-NUMBER']
     except KeyError:
         raise MissingEnvironmentVariable("`pull-request-number` environment variable not found")
 
     try:
-        pull_request_body = os.environ['INPUT_PULL_REQUEST_BODY']
+        pull_request_body = os.environ['INPUT_PULL-REQUEST-BODY']
     except KeyError:
         raise MissingEnvironmentVariable("`pull-request-body` environment variable not found")
 
     try:
-        copy_issues_labels = os.environ['INPUT_COPY_ISSUES_LABELS']
+        copy_issues_labels = os.environ['INPUT_COPY-ISSUES-LABELS']
     except KeyError:
         copy_issues_labels = False
 
