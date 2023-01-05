@@ -23,8 +23,8 @@ Example workflow:
 
 ```yaml
     - name: Find linked issues
-      uses: Ismoh-Games/find-linked-issues@v0.0.1
       id: find-linked-issues
+      uses: Ismoh-Games/find-linked-issues@v0.0.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         repo: ${{ github.repository }} # optional
