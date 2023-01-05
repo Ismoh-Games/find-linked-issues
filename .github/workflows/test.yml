@@ -1,12 +1,12 @@
 name: Test Workflow
-on: push
+on: [ pull_request, pull_request_target ]
 jobs:
   test-workflow-itself:
     name: Test workflow itself
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Run Action
         # we can give directory path that contains action.yaml or repo address in username/repository_name@version format
         # in our case it would be nashmaniac/create-issue-action@v1.0 where v1.0 is the version of action
@@ -14,7 +14,7 @@ jobs:
         uses: ./
         # pass user input as arguments
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }} # optional
-          pull-request-number: ${{ github.event.pull_request.number }} # optional
+          # token: ${{ secrets.GITHUB_TOKEN }}
+          # repository: ${{ github.repository }} # optional
+          # pull-request-number: ${{ github.event.pull_request.number }} # optional
           copy-issues-labels: true # optional

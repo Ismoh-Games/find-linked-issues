@@ -13,25 +13,32 @@ def main():
     # Get environment variables
     print("Fetching environment variables...")
 
-    token = os.environ.get("INPUT_TOKEN")
-    if not token:
-        raise MissingEnvironmentVariable("`token` environment variable not found")
+    # token = os.environ['INPUT_TOKEN']
+    # if not token:
+    #     raise MissingEnvironmentVariable("`token` environment variable not found")
 
-    repository = os.environ.get("INPUT_REPOSITORY")
+    repository = os.environ['INPUT_REPOSITORY']
+    if not repository:
+        repository = os.environ['GITHUB_CONTEXT'].repository
     if not repository:
         raise MissingEnvironmentVariable("`repository` environment variable not found")
 
-    pull_request_number = os.environ.get("INPUT_PULL_REQUEST_NUMBER")
+    pull_request_number = os.environ['INPUT_PULL_REQUEST_NUMBER']
+    if not pull_request_number:
+        pull_request_number = os.environ['GITHUB_CONTEXT'].event.number
     if not pull_request_number:
         raise MissingEnvironmentVariable("`pull-request-number` environment variable not found")
 
-    copy_issues_labels = os.environ.get("INPUT_COPY_ISSUES_LABELS")
+    copy_issues_labels = os.environ['INPUT_COPY_ISSUES_LABELS']
     if not copy_issues_labels:
-        raise MissingEnvironmentVariable("`copy-issues-labels` environment variable not found")
+        # raise MissingEnvironmentVariable("`copy-issues-labels` environment variable not found")
+        copy_issues_labels = False
 
-    body = os.environ.get("BODY")
+    body = os.environ['BODY']
     if not body:
-        raise MissingEnvironmentVariable("BODY environment variable not found")
+        body = os.environ['GITHUB_CONTEXT'].event.pull_request.body
+    if not body:
+        raise MissingEnvironmentVariable("`body` environment variable not found")
 
     print("Environment variables fetched successfully")
 
