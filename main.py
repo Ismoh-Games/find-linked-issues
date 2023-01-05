@@ -17,36 +17,25 @@ def main():
     # if not token:
     #     raise MissingEnvironmentVariable("`token` environment variable not found")
 
-    repository = None
     try:
         repository = os.environ['INPUT_REPOSITORY']
     except KeyError:
-        if not repository:
-            repository = os.environ['GITHUB_CONTEXT'].repository
-        if not repository:
-            raise MissingEnvironmentVariable("`repository` environment variable not found")
+        raise MissingEnvironmentVariable("`repository` environment variable not found")
 
-    pull_request_number = None
     try:
         pull_request_number = os.environ['INPUT_PULL_REQUEST_NUMBER']
     except KeyError:
-        if not pull_request_number:
-            pull_request_number = os.environ['GITHUB_CONTEXT'].event.number
-        if not pull_request_number:
-            raise MissingEnvironmentVariable("`pull-request-number` environment variable not found")
+        raise MissingEnvironmentVariable("`pull-request-number` environment variable not found")
 
-    copy_issues_labels = None
+    try:
+        pull_request_body = os.environ['INPUT_PULL_REQUEST_BODY']
+    except KeyError:
+        raise MissingEnvironmentVariable("`pull-request-body` environment variable not found")
+
     try:
         copy_issues_labels = os.environ['INPUT_COPY_ISSUES_LABELS']
     except KeyError:
-        if not copy_issues_labels:
-            copy_issues_labels = False
-
-    body = None
-    try:
-        body = os.environ['GITHUB_CONTEXT'].event.pull_request.body
-    except KeyError:
-        raise MissingEnvironmentVariable("`body` environment variable not found")
+        copy_issues_labels = False
 
     print("Environment variables fetched successfully")
 
@@ -55,10 +44,10 @@ def main():
 
     pattern = r'(.lose|.ix|.esolve)(\S*|\s*).#\d+'
 
-    matches = re.findall(pattern, body, re.MULTILINE)
+    matches = re.findall(pattern, pull_request_body, re.MULTILINE)
     print(f"Matches: {matches}")
 
-    issue_numbers = re.search(pattern, body)
+    issue_numbers = re.search(pattern, pull_request_body)
     if not issue_numbers:
         raise RuntimeError("No issue found in the body")
 

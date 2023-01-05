@@ -15,8 +15,9 @@ You can also do this [manually](https://docs.github.com/en/issues/tracking-your-
 | Name                  | Description                                                          |          | Default                                   |
 |-----------------------|----------------------------------------------------------------------|----------|-------------------------------------------|
 | `token`               | The GitHub token to use for authentication.                          | required | `${{ secrets.GITHUB_TOKEN }}`             |
-| `repository`          | The repository to use. If linked issue is on a different repository. | optional | `${{ github.repository }}`                |
-| `pull-request-number` | The pull request number to use. If pull requests are linked.         | optional | `${{ github.event.pull_request.number }}` |
+| `repository`          | The repository to use. If linked issue is on a different repository. | required | `${{ github.repository }}`                |
+| `pull-request-number` | The pull request number to use. If pull requests are linked.         | required | `${{ github.event.pull_request.number }}` |
+| `pull-request-body`   | The pull request body to search for keywords like `Resolves #48`.    | required | `${{ github.event.pull_request.body }}`   |
 | `copy-issues-labels`  | Copy the labels of the linked issues to the pull request.            | optional | `false`                                   |
 
 Example workflow:
@@ -26,9 +27,10 @@ Example workflow:
       id: find-linked-issues
       uses: Ismoh-Games/find-linked-issues@v0.0.1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        repository: ${{ github.repository }} # optional
-        pull-request-number: ${{ github.event.pull_request.number }} # optional
+        # token: ${{ secrets.GITHUB_TOKEN }}
+        repository: ${{ github.repository }}
+        pull-request-number: ${{ github.event.pull_request.number }}
+        pull-request-body: ${{ github.event.pull_request.body }}
         copy-issues-labels: true # optional
 ```
 
