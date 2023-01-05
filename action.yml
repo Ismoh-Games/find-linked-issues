@@ -8,7 +8,7 @@ inputs:
   token:
     description: The GitHub token to use for authentication.
     required: true
-  repo:
+  repository:
     description: The repository to use for searching issues. (optional)
     required: false
     default: ${{ github.repository }}
@@ -22,6 +22,9 @@ inputs:
     default: 'false'
   
 outputs:
+  is-pull-request-linked-to-issues:
+    description: Whether the pull request is linked to issues or not.
+    #value: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}
   linked-issues:
     description: "List of issues that are linked to the pull request, i.e. `[\"1\", \"2\", \"4\", \"82\", \"12\"]`"
     #value: ${{ steps.find-linked-issues.outputs.linked-issues }}
