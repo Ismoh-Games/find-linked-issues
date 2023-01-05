@@ -1,17 +1,16 @@
 name: Test Workflow
 on:
+  push:
   pull_request:
     types:
       - opened
       - edited
       - synchronize
-      - closed 
   pull_request_target:
     types:
       - opened
       - edited
       - synchronize
-      - closed
 jobs:
   test-workflow-itself:
     name: Test workflow itself
