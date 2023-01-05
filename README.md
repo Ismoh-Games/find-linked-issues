@@ -27,7 +27,7 @@ Example workflow:
       uses: Ismoh-Games/find-linked-issues@v0.0.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        repo: ${{ github.repository }} # optional
+        repository: ${{ github.repository }} # optional
         pull-request-number: ${{ github.event.pull_request.number }} # optional
         copy-issues-labels: true # optional
 ```

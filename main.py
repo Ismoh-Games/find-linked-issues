@@ -13,21 +13,21 @@ def main():
     # Get environment variables
     print("Fetching environment variables...")
 
-    token = os.environ.get("TOKEN")
+    token = os.environ.get("INPUT_TOKEN")
     if not token:
-        raise MissingEnvironmentVariable("TOKEN environment variable not found")
+        raise MissingEnvironmentVariable("`token` environment variable not found")
 
-    repo = os.environ.get("REPO")
-    if not repo:
-        raise MissingEnvironmentVariable("REPO environment variable not found")
+    repository = os.environ.get("INPUT_REPOSITORY")
+    if not repository:
+        raise MissingEnvironmentVariable("`repository` environment variable not found")
 
-    pull_request_number = os.environ.get("PULL_REQUEST_NUMBER")
+    pull_request_number = os.environ.get("INPUT_PULL_REQUEST_NUMBER")
     if not pull_request_number:
-        raise MissingEnvironmentVariable("PULL_REQUEST_NUMBER environment variable not found")
+        raise MissingEnvironmentVariable("`pull-request-number` environment variable not found")
 
-    copy_issues_labels = os.environ.get("COPY_ISSUES_LABELS")
+    copy_issues_labels = os.environ.get("INPUT_COPY_ISSUES_LABELS")
     if not copy_issues_labels:
-        raise MissingEnvironmentVariable("COPY_ISSUES_LABELS environment variable not found")
+        raise MissingEnvironmentVariable("`copy-issues-labels` environment variable not found")
 
     body = os.environ.get("BODY")
     if not body:
@@ -54,7 +54,7 @@ def main():
 
     params = {
         "is": "issue",
-        "repo": repo,
+        "repo": repository,
         "linked": "pr",
         "": " ".join(str(i) for i in issue_numbers)
     }
