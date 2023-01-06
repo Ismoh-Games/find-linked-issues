@@ -44,7 +44,7 @@ def main():
 
     pattern = r'(.lose|.ix|.esolve)(\S*|\s*).#\d+'
 
-    matches = re.findall(pattern, pull_request_body, re.MULTILINE)
+    matches = re.finditer(pattern, pull_request_body)
     print(f"Matches: {matches}")
 
     issue_numbers = re.search(pattern, pull_request_body)
@@ -60,8 +60,9 @@ def main():
         "is": "issue",
         "repo": repository,
         "linked": "pr",
-        "": " ".join(str(i) for i in issue_numbers)
+        "": " ".join(str(i) for i in issue_numbers.group())
     }
+    print(f"Request url: https://api.github.com/search/issues?q= {params}")
     response = requests.get("https://api.github.com/search/issues?q=", params=params)
 
     if response.status_code != 200:
