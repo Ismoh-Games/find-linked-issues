@@ -1,6 +1,7 @@
 import os
 import re
 import requests
+import urllib.parse
 
 
 class MissingEnvironmentVariable(Exception):
@@ -41,29 +42,35 @@ def main():
 
     # Get pull request
     print("Fetching pull request...")
-
     pattern = r'(.lose|.ix|.esolve)(\S*|\s*).#\d+'
-
-    matches = re.finditer(pattern, pull_request_body)
-    print(f"Matches: {matches}")
-
-    issue_numbers = re.search(pattern, pull_request_body)
-    if not issue_numbers:
+    matches = re.search(pattern, pull_request_body)
+    if not matches:
         raise RuntimeError("No issue found in the body")
+    print(f"Issue number: {matches}")
 
-    print(f"Issue number: {issue_numbers}")
+    issue_numbers = []
+    for match in matches:
+        length = len(match)
+        index = match.index('#')
+        issue_number = match[index:length - index]
+        issue_numbers.append(issue_number)
+    print(f"Issue numbers: {issue_numbers}")
 
-    # Find issues
+    # Find issues with GitHub API
     print("Fetching issues...")
-
+    url = 'https://api.github.com/search/issues?'
     params = {
         "is": "issue",
         "repo": repository,
         "linked": "pr",
-        "": " ".join(str(i) for i in issue_numbers.group())
+        "": " ".join(str(i) for i in issue_numbers)
     }
-    print(f"Request url: https://api.github.com/search/issues?q= {params}")
-    response = requests.get("https://api.github.com/search/issues?q=", params=params)
+    headers = {
+        "Accept": "application/vnd.github+json"
+    }
+    url = url + urllib.parse.urlencode(params)
+    print(f"Request url: {url}")
+    response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
         print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
