@@ -57,10 +57,10 @@ def main():
                 print(f"Skipping {entry}")
             else:
                 print(f"Found {entry}")
-                length = len(entry)
                 index = entry.index('#')
-                issue_number = entry[index:length - index]
+                issue_number = entry[index:]
                 issue_numbers.append(issue_number)
+                print(f"Found issue number: {issue_number}")
     if not issue_numbers:
         raise RuntimeError("No issue found in the regex matches!")
     print(f"Issue numbers: {issue_numbers}")
