@@ -45,10 +45,11 @@ def main():
     pattern = r'((.lose|.ix|.esolve)(\S*|\s*)).#\d+'
     matches = re.findall(pattern, pull_request_body)
     matches2 = re.finditer(pattern, pull_request_body)
-    if not matches:
-        raise RuntimeError("No issue found in the body")
     print(f"Matches: {matches}")
     print(f"Matches2: {matches2}")
+    if not matches:
+        raise RuntimeError("No issue found in the body")
+
 
     issue_numbers = []
     for match in matches:
