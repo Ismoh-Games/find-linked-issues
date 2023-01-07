@@ -42,7 +42,8 @@ def main():
 
     # Get pull request
     print("Finding issue numbers in pull requests body..")
-    pattern = r"((.lose|.ix|.esolve)(\S*|\s*))(.|)#\d+"
+    print(f"Pull request body: {pull_request_body}")
+    pattern = re.compile(r"((.lose|.ix|.esolve)(\S*|\s*))(.|)#\d+")
     matches = re.findall(pattern, pull_request_body)
     matches2 = re.finditer(pattern, pull_request_body)
     print(f"Matches: {matches}")
