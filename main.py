@@ -57,8 +57,8 @@ def main():
                 print(f"Skipping {entry}")
             else:
                 print(f"Found {entry}")
-                index = entry.index('#')
-                issue_number = entry[index:]
+                index = entry.index("#")
+                issue_number = entry[index + 1:]
                 issue_numbers.append(issue_number)
                 print(f"Found issue number: {issue_number}")
     if not issue_numbers:
@@ -67,9 +67,8 @@ def main():
 
     # Find issues with GitHub API
     print("Fetching issues...")
-    url = "https://api.github.com/search/issues?q=" \
-          + urllib.parse.quote(f"repo:{repository} is:issue is:open linked:pr"
-                               + " ".join(str(i) for i in issue_numbers))
+    url = f"https://api.github.com/search/issues?q=repo:{repository} is:issue is:open linked:pr " \
+          + " ".join(str(i) for i in issue_numbers)
     print(f"Request url: {url}")
     headers = {
         "Accept": "application/vnd.github+json"
