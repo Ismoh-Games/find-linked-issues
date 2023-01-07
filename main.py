@@ -41,12 +41,12 @@ def main():
     print("Environment variables fetched successfully")
 
     # Get pull request
-    print("Fetching pull request...")
+    print("Finding issue numbers in pull requests body..")
     pattern = r'(.lose|.ix|.esolve)(\S*|\s*).#\d+'
-    matches = re.search(pattern, pull_request_body)
+    matches = re.findall(pattern, pull_request_body)
     if not matches:
         raise RuntimeError("No issue found in the body")
-    print(f"Issue number: {matches}")
+    print(f"Matches: {matches}")
 
     issue_numbers = []
     for match in matches:
