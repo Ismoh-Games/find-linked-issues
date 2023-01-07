@@ -54,11 +54,12 @@ def main():
         for entry in match:
             print(f"entry: {entry}")
             if "#" not in entry:
-                continue
+                print(f"Skipping {entry}")
             else:
+                print(f"Found {entry}")
                 length = len(entry)
-                index = match.index('#')
-                issue_number = match[index:length - index]
+                index = entry.index('#')
+                issue_number = entry[index:length - index]
                 issue_numbers.append(issue_number)
     if not issue_numbers:
         raise RuntimeError("No issue found in the regex matches!")
