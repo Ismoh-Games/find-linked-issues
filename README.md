@@ -46,4 +46,4 @@ This action will only work on pull request events:
 
 #### Further reading
 There is a pattern used to find the linked issues in the pull request body.\
-To get insights on how this pattern works, check out the [regex101 example](https://regex101.com/r/f60fNx/3)!
+To get insights on how this pattern works, check out the [regex101 example](https://regex101.com/r/f60fNx/4)!
