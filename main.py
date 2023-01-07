@@ -52,7 +52,8 @@ def main():
     issue_numbers = []
     for match in matches:
         for entry in match:
-            if not entry.contains("#"):
+            print(f"entry: {entry}")
+            if "#" not in entry:
                 continue
             else:
                 length = len(entry)
