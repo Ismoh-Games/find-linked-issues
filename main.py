@@ -67,18 +67,13 @@ def main():
 
     # Find issues with GitHub API
     print("Fetching issues...")
-    url = 'https://api.github.com/search/issues?'
-    params = {
-        "is": "issue",
-        "repo": repository,
-        "linked": "pr",
-        "": " ".join(str(i) for i in issue_numbers)
-    }
+    url = "https://api.github.com/search/issues?q=" \
+          + urllib.parse.quote(f"repo:{repository} is:issue is:open linked:pr"
+                               + " ".join(str(i) for i in issue_numbers))
+    print(f"Request url: {url}")
     headers = {
         "Accept": "application/vnd.github+json"
     }
-    url = url + urllib.parse.urlencode(params)
-    print(f"Request url: {url}")
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
