@@ -45,18 +45,22 @@ def main():
     print(f"Pull request body: {pull_request_body}")
     pattern = re.compile(r"(((.lose|.ix|.esolve)(\S*|\s*))(.|)\#\d+)", re.VERBOSE)
     matches = re.findall(pattern, pull_request_body)
-    matches2 = re.finditer(pattern, pull_request_body)
     print(f"Matches: {matches}")
-    print(f"Matches2: {matches2}")
     if not matches:
-        raise RuntimeError("No issue found in the body")
+        raise RuntimeError("No regex matches found in the body!")
 
     issue_numbers = []
     for match in matches:
-        length = len(match)
-        index = match.index('#')
-        issue_number = match[index:length - index]
-        issue_numbers.append(issue_number)
+        for entry in match:
+            if not entry.contains("#"):
+                continue
+            else:
+                length = len(entry)
+                index = match.index('#')
+                issue_number = match[index:length - index]
+                issue_numbers.append(issue_number)
+    if not issue_numbers:
+        raise RuntimeError("No issue found in the regex matches!")
     print(f"Issue numbers: {issue_numbers}")
 
     # Find issues with GitHub API
