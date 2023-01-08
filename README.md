@@ -44,12 +44,12 @@ Example workflow:
         echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
 
     - name: Conditional step
-      if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues == "True" }}
+      if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues == 'True' }}
       run: |
         echo "Pull request is linked to issues"
 
     - name: Another conditional step
-      if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues == "False" }}
+      if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues == 'False' }}
       run: |
         exit 1
 ```
