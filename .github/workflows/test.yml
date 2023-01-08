@@ -1,13 +1,25 @@
-name: Test Workflow
-on: push
+name: Test and lint
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
 jobs:
-  test-workflow-itself:
-    name: Test workflow itself
+  test-workflow:
+    name: Test this workflow action
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        
       - name: Run Action
+        id: find-linked-issues
         # we can give directory path that contains action.yaml or repo address in username/repository_name@version format
         # in our case it would be nashmaniac/create-issue-action@v1.0 where v1.0 is the version of action
         # for now we will give directory path. The directory must contain action.yaml
@@ -15,6 +27,37 @@ jobs:
         # pass user input as arguments
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }} # optional
-          pull-request-number: ${{ github.event.pull_request.number }} # optional
+          repository: ${{ github.repository }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          pull-request-body: ${{ github.event.pull_request.body }}
           copy-issues-labels: true # optional
+          
+      - name: Echo output
+        run: |
+          echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
+          echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+          
+      - name: Echo output when success
+        if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues == 'True' }}
+        run: |
+          echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
+          echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+          
+      - name: Echo output when failure and exit
+        if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues == 'False' }}
+        run: |
+          echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
+          echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+          exit 1
+
+  lint-workflow:
+    name: Lint this workflow action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Lint with pycodestyle
+        run: |
+          pip install pycodestyle
+          pycodestyle --max-line-length=120 main.py

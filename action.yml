@@ -10,12 +10,16 @@ inputs:
     required: true
   repository:
     description: The repository to use for searching issues. (optional)
-    required: false
+    required: true
     default: ${{ github.repository }}
   pull-request-number:
-    description: The pull request number. (optional)
-    required: false
+    description: The pull request number.
+    required: true
     default: ${{ github.event.pull_request.number }}
+  pull-request-body:
+    description: The pull request body.
+    required: true
+    default: ${{ github.event.pull_request.body }}
   copy-issues-labels:
     description: Copy the labels of the linked issues to the pull request. (optional)
     required: false
