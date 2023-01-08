@@ -1,7 +1,7 @@
-# find-linked-issues
+# find-linked-issues *and more*
 
-[![Build Status]()]
-[![Coverage Status]()]
+[![test `pull_request`](https://img.shields.io/github/actions/workflow/status/ismoh-games/find-linked-issues/test.yml?event=pull_request&label=test%20%60pull_request%60&style=for-the-badge)]()
+[![test `pull_request_target`](https://img.shields.io/github/actions/workflow/status/ismoh-games/find-linked-issues/test.yml?event=pull_request_target&label=test%20%60pull_request_target%60&style=for-the-badge)]()
 
 Marketplace action for finding the linked issues of a pull request. 
 
