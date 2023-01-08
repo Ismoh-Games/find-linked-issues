@@ -102,7 +102,7 @@ def main():
                 for label in item["labels"]:
                     if label["name"] and label["name"] not in response_json_issues_labels:
                         response_json_issues_labels.append(label["name"])
-                        print(f"Found and added issue label: {label['name']}")
+                        print(f"Found and added issue label: {response_json_issues_labels}")
 
     if not response_json_issue_numbers:
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
@@ -122,7 +122,7 @@ def main():
         print("Copying labels from issues to pull request...")
         if response_json_issues_labels:
             github.get_repo(repository).get_pull(int(pull_request_number)).add_to_labels(
-                " ".join(str(label) for label in response_json_issues_labels))
+                ",".join(str(label) for label in response_json_issues_labels))
             print("Labels copied successfully")
 
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
