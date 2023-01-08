@@ -69,7 +69,7 @@ def main():
     """ Find issues with GitHub API """
     print("Fetching issues...")
     url = "https://api.github.com/search/issues?q=" \
-          + f"repo:{repository} is:issue is:open linked:pr pr:{pull_request_number}" \
+          + f"repo:{repository} is:issue is:open linked:pr pr:{pull_request_number} " \
           + " ".join(str(i) for i in issue_numbers)
     print(f"Request url: {url}")
     headers = {
