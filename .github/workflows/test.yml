@@ -32,16 +32,16 @@ jobs:
           copy-issues-labels: true # optional
       - name:
         run: |
-          echo "is-pull-request-linked-to-issues: '${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}'"
-          echo "linked-issues: '${{ steps.find-linked-issues.outputs.linked-issues }}'"
+          echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
+          echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
       - name:
         if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}
         run: |
-          echo "is-pull-request-linked-to-issues: '${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}'"
-          echo "linked-issues: '${{ steps.find-linked-issues.outputs.linked-issues }}'"
+          echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
+          echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
       - name:
-        if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }} == false
+        if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }} == False
         run: |
-          echo "is-pull-request-linked-to-issues: '${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}'"
-          echo "linked-issues: '${{ steps.find-linked-issues.outputs.linked-issues }}'"
+          echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
+          echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
           exit 1
