@@ -1,7 +1,7 @@
 # find-linked-issues *and more*
 
-[![test `pull_request`](https://img.shields.io/github/actions/workflow/status/ismoh-games/find-linked-issues/test.yml?event=pull_request&label=test%20%60pull_request%60&style=for-the-badge)]()
-[![test `pull_request_target`](https://img.shields.io/github/actions/workflow/status/ismoh-games/find-linked-issues/test.yml?event=pull_request_target&label=test%20%60pull_request_target%60&style=for-the-badge)]()
+[![test `pull_request`](https://img.shields.io/github/actions/workflow/status/ismoh-games/find-linked-issues/test.yml?event=pull_request&label=test%20%60pull_request%60&style=for-the-badge)](https://github.com/Ismoh-Games/find-linked-issues/actions/workflows/test.yml)
+[![test `pull_request_target`](https://img.shields.io/github/actions/workflow/status/ismoh-games/find-linked-issues/test.yml?event=pull_request_target&label=test%20%60pull_request_target%60&style=for-the-badge)](https://github.com/Ismoh-Games/find-linked-issues/actions/workflows/test.yml)
 
 Marketplace action for finding the linked issues of a pull request. 
 
@@ -21,7 +21,7 @@ You can also do this [manually](https://docs.github.com/en/issues/tracking-your-
 | `pull-request-body`                | The pull request body to search for keywords like `Resolves #48`.    | **required**          | `${{ github.event.pull_request.body }}`   |
 | `copy-issues-labels`               | Copy the labels of the linked issues to the pull request.            | optional              | `false`                                   |
 | **Name OUTPUTS**                   | **Description**                                                      | **Values**            | **Defaults**                              |
-| `is-pull-request-linked-to-issues` | Whether the pull request is linked to issues or not.                 | `"True"` or `"False"` | `"False"`                                 |
+| `is-pull-request-linked-to-issues` | Whether the pull request is linked to issues or not.                 | `'True'` or `'False'` | `'False'`                                 |
 | `linked-issues`                    | List of issues that are linked to the pull request.                  | `[1, 2, 4, 82, 124]`  | `[]`                                      |   
 
 Example workflow:
@@ -60,4 +60,5 @@ This action will only work on pull request events:
 
 #### Further reading
 There is a pattern used to find the linked issues in the pull request body.\
-To get insights on how this pattern works, check out the [regex101 example](https://regex101.com/r/f60fNx/4)!
+To get insights on how this pattern works, check out the [regex101.com](https://regex101.com/r/f60fNx/4)!\
+When having problems with the pattern, you can test it out on [pythex.org](https://pythex.org).
