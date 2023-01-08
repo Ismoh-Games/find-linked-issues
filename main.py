@@ -85,15 +85,15 @@ def main():
 
         raise RuntimeError("Error fetching issues, 'total_response' = 0")
         
-    if response_json["number"] not in issue_numbers:
+    if response_json["items"]["number"] not in issue_numbers:
         print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
 
         raise RuntimeError(f"Error fetching issues, didn't find issue number in response: {response_json}")
         
     else:
-        print(f"Issues fetched successfully: {response_json['number']}")
+        print(f"Issues fetched successfully: {response_json['items']['number']}")
         print(f"is-pull-request-linked-to-issues=true >> $GITHUB_OUTPUT")
-        print(f"linked-issues={response_json['number']} >> $GITHUB_OUTPUT")
+        print(f"linked-issues={response_json['items']['number']} >> $GITHUB_OUTPUT")
 
 
 if __name__ == "__main__":
