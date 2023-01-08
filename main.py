@@ -89,7 +89,7 @@ def main():
 
     response_json_issue_numbers = []
     for item in response_json["items"]:
-        print(f"item: {item}")
+        print(f"item: {json.dumps(item, indent=2)}")
         print(f"item['number']: {item['number']}")
         if str(item["number"]) in issue_numbers:
             response_json_issue_numbers.append(item["number"])
