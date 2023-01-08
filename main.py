@@ -91,12 +91,18 @@ def main():
         raise RuntimeError("Error fetching issues, 'total_response' = 0")
 
     response_json_issue_numbers = []
+    response_json_issues_labels = []
     for item in response_json["items"]:
         print(f"item: {json.dumps(item, indent=2)}")
         print(f"item['number']: {item['number']}")
         if str(item["number"]) in issue_numbers:
             response_json_issue_numbers.append(item["number"])
             print(f"Found issue number: {item['number']}")
+            if copy_issues_labels:
+                for label in item["labels"]:
+                    if label["name"] and label["name"] not in response_json_issues_labels:
+                        response_json_issues_labels.append(label["name"])
+                        print(f"Found and added issue label: {label['name']}")
 
     if not response_json_issue_numbers:
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
@@ -113,8 +119,10 @@ def main():
     if copy_issues_labels:
         print("Copying labels from issues to pull request...")
         github = Github(token)
-        github.get_repo(repository).get_pull(int(pull_request_number)).add_to_labels(*response_json_issue_numbers)
-        print("Labels copied successfully")
+        if not response_json_issues_labels:
+            github.get_repo(repository).get_pull(int(pull_request_number)).add_to_labels(
+                " ".join(str(label) for label in response_json_issues_labels))
+            print("Labels copied successfully")
 
 
 if __name__ == "__main__":
