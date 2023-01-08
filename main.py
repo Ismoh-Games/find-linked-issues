@@ -119,7 +119,7 @@ def main():
     if copy_issues_labels:
         print("Copying labels from issues to pull request...")
         github = Github(token)
-        if not response_json_issues_labels:
+        if response_json_issues_labels:
             github.get_repo(repository).get_pull(int(pull_request_number)).add_to_labels(
                 " ".join(str(label) for label in response_json_issues_labels))
             print("Labels copied successfully")
