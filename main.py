@@ -78,26 +78,27 @@ def main():
 
     if response.status_code != 200:
         print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
-        raise RuntimeError(f"Error fetching issues: {response.text}")
+        raise RuntimeError(f"Error fetching issues: {json.dumps(response.json(), indent=2)}")
 
     response_json = response.json()
     print(json.dumps(response_json, indent=2))
-    
+
     if response_json["total_count"] == 0:
         print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
-
         raise RuntimeError("Error fetching issues, 'total_response' = 0")
-        
+
     response_json_issue_numbers = []
     for item in response_json["items"]:
-    
-        if item["number"] in issue_numbers:
+        print(f"item: {item}")
+        print(f"item['number']: {item['number']}")
+        if str(item["number"]) in issue_numbers:
             response_json_issue_numbers.append(item["number"])
-            
+            print(f"Found issue number: {item['number']}")
+
     if not response_json_issue_numbers:
         print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
         raise RuntimeError(f"Error fetching issues, didn't find issue number in response: {response_json}")
-        
+
     print(f"Issues fetched successfully: {response_json_issue_numbers}")
     print(f"is-pull-request-linked-to-issues=true >> $GITHUB_OUTPUT")
     print(f"linked-issues={response_json_issue_numbers} >> $GITHUB_OUTPUT")
