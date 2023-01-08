@@ -35,12 +35,12 @@ jobs:
           echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
           echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
       - name:
-        if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}
+        if: "${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}" == "True"
         run: |
           echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
           echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
       - name:
-        if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }} == False
+        if: "${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}" == "False"
         run: |
           echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
           echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
