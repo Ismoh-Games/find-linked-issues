@@ -9,7 +9,7 @@ inputs:
     description: The GitHub token to use for authentication.
     required: true
   repository:
-    description: The repository to use for searching issues. (optional)
+    description: The repository to use for searching issues.
     required: true
     default: ${{ github.repository }}
   pull-request-number:
@@ -30,8 +30,11 @@ outputs:
     description: Whether the pull request is linked to issues or not.
     #value: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}
   linked-issues:
-    description: "List of issues that are linked to the pull request, i.e. `[\"1\", \"2\", \"4\", \"82\", \"12\"]`"
+    description: "List of issues that are linked to the pull request, i.e. `[1, 2, 4, 82, 124]`"
     #value: ${{ steps.find-linked-issues.outputs.linked-issues }}
+  pull-request-labels:
+    description: "List of labels assigned to this pull request, i.e. `[bug, enhancement, ..]`"
+    #value: ${{ steps.find-linked-issues.outputs.pull-request-labels }}
     
 runs:
   using: 'docker'
