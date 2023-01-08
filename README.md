@@ -13,16 +13,17 @@ You can also do this [manually](https://docs.github.com/en/issues/tracking-your-
 
 ### Inputs and outputs
 
-| Name INPUTS                        | Description                                                          |                       | Default                                   |
-|------------------------------------|----------------------------------------------------------------------|-----------------------|-------------------------------------------|
-| `token`                            | The GitHub token to use for authentication.                          | **required**          | `${{ secrets.GITHUB_TOKEN }}`             |
-| `repository`                       | The repository to use. If linked issue is on a different repository. | **required**          | `${{ github.repository }}`                |
-| `pull-request-number`              | The pull request number to use. If pull requests are linked.         | **required**          | `${{ github.event.pull_request.number }}` |
-| `pull-request-body`                | The pull request body to search for keywords like `Resolves #48`.    | **required**          | `${{ github.event.pull_request.body }}`   |
-| `copy-issues-labels`               | Copy the labels of the linked issues to the pull request.            | optional              | `false`                                   |
-| **Name OUTPUTS**                   | **Description**                                                      | **Values**            | **Defaults**                              |
-| `is-pull-request-linked-to-issues` | Whether the pull request is linked to issues or not.                 | `'True'` or `'False'` | `'False'`                                 |
-| `linked-issues`                    | List of issues that are linked to the pull request.                  | `[1, 2, 4, 82, 124]`  | `[]`                                      |   
+| Name INPUTS                        | Description                                                          |                          | Default                                   |
+|------------------------------------|----------------------------------------------------------------------|--------------------------|-------------------------------------------|
+| `token`                            | The GitHub token to use for authentication.                          | **required**             | `${{ secrets.GITHUB_TOKEN }}`             |
+| `repository`                       | The repository to use. If linked issue is on a different repository. | **required**             | `${{ github.repository }}`                |
+| `pull-request-number`              | The pull request number to use. If pull requests are linked.         | **required**             | `${{ github.event.pull_request.number }}` |
+| `pull-request-body`                | The pull request body to search for keywords like `Resolves #48`.    | **required**             | `${{ github.event.pull_request.body }}`   |
+| `copy-issues-labels`               | Copy the labels of the linked issues to the pull request.            | optional                 | `false`                                   |
+| **Name OUTPUTS**                   | **Description**                                                      | **Values**               | **Defaults**                              |
+| `is-pull-request-linked-to-issues` | Whether the pull request is linked to issues or not.                 | `'True'` or `'False'`    | `'False'`                                 |
+| `linked-issues`                    | List of issues that are linked to the pull request.                  | `[1, 2, 4, 82, 124]`     | `[]`                                      |   
+| `pull-request-labels`              | List of labels assigned to this pull request.                        | `[bug, enhancement, ..]` | `[]`                                      |
 
 Example workflow:
 
@@ -42,6 +43,7 @@ Example workflow:
       run: |
         echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
         echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+        echo "pull-request-labels: ${{ steps.find-linked-issues.outputs.pull-request-labels }}"
 
     - name: Conditional step
       if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues == 'True' }}
