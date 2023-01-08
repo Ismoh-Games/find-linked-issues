@@ -2,6 +2,7 @@ import os
 import re
 import requests
 import urllib.parse
+import json
 
 
 class MissingEnvironmentVariable(Exception):
@@ -80,11 +81,15 @@ def main():
         raise RuntimeError(f"Error fetching issues: {response.text}")
 
     response_json = response.json()
+    print(json.dumps(response_json, indent=2))
+    
     if response_json["total_count"] == 0:
         print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
 
         raise RuntimeError("Error fetching issues, 'total_response' = 0")
         
+    for item in response_json["items"]:
+    
     if response_json["items"]["number"] not in issue_numbers:
         print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
 
