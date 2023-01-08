@@ -24,7 +24,7 @@ jobs:
         uses: ./
         # pass user input as arguments
         with:
-          # token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
           pull-request-number: ${{ github.event.pull_request.number }}
           pull-request-body: ${{ github.event.pull_request.body }}

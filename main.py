@@ -1,8 +1,8 @@
 import os
 import re
 import requests
-import urllib.parse
 import json
+from github import Github
 
 
 class MissingEnvironmentVariable(Exception):
@@ -12,12 +12,12 @@ class MissingEnvironmentVariable(Exception):
 def main():
     """ Main function """
 
-    # Get environment variables
+    """ Get environment variables """
     print("Fetching environment variables...")
 
-    # token = os.environ['INPUT_TOKEN']
-    # if not token:
-    #     raise MissingEnvironmentVariable("`token` environment variable not found")
+    token = os.environ['INPUT_TOKEN']
+    if not token:
+        raise MissingEnvironmentVariable("`token` environment variable not found")
 
     try:
         repository = os.environ['INPUT_REPOSITORY']
@@ -41,7 +41,7 @@ def main():
 
     print("Environment variables fetched successfully")
 
-    # Get pull request
+    """ Get pull request """
     print("Finding issue numbers in pull requests body..")
     print(f"Pull request body: {pull_request_body}")
     pattern = re.compile(r"(((.lose|.ix|.esolve)(\S*|\s*))(.|)\#\d+)", re.VERBOSE)
@@ -66,9 +66,10 @@ def main():
         raise RuntimeError("No issue found in the regex matches!")
     print(f"Issue numbers: {issue_numbers}")
 
-    # Find issues with GitHub API
+    """ Find issues with GitHub API """
     print("Fetching issues...")
-    url = f"https://api.github.com/search/issues?q=repo:{repository} is:issue is:open linked:pr " \
+    url = "https://api.github.com/search/issues?q=" \
+          + f"repo:{repository} is:issue is:open linked:pr pr:{pull_request_number}" \
           + " ".join(str(i) for i in issue_numbers)
     print(f"Request url: {url}")
     headers = {
@@ -77,14 +78,16 @@ def main():
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            print(f"is-pull-request-linked-to-issues={False}", file=fh)
         raise RuntimeError(f"Error fetching issues: {json.dumps(response.json(), indent=2)}")
 
     response_json = response.json()
     print(json.dumps(response_json, indent=2))
 
     if response_json["total_count"] == 0:
-        print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            print(f"is-pull-request-linked-to-issues={False}", file=fh)
         raise RuntimeError("Error fetching issues, 'total_response' = 0")
 
     response_json_issue_numbers = []
@@ -96,12 +99,22 @@ def main():
             print(f"Found issue number: {item['number']}")
 
     if not response_json_issue_numbers:
-        print(f"is-pull-request-linked-to-issues=false >> $GITHUB_OUTPUT")
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            print(f"is-pull-request-linked-to-issues={False}", file=fh)
         raise RuntimeError(f"Error fetching issues, didn't find issue number in response: {response_json}")
 
     print(f"Issues fetched successfully: {response_json_issue_numbers}")
-    print(f"is-pull-request-linked-to-issues=true >> $GITHUB_OUTPUT")
-    print(f"linked-issues={response_json_issue_numbers} >> $GITHUB_OUTPUT")
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        print(f"is-pull-request-linked-to-issues={True}", file=fh)
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        print(f"linked-issues={response_json_issue_numbers}", file=fh)
+
+    """ Copy labels from issues to pull request """
+    if copy_issues_labels:
+        print("Copying labels from issues to pull request...")
+        github = Github(token)
+        github.get_repo(repository).get_pull(int(pull_request_number)).add_to_labels(*response_json_issue_numbers)
+        print("Labels copied successfully")
 
 
 if __name__ == "__main__":
