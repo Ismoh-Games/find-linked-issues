@@ -56,6 +56,8 @@ Example workflow:
         exit 1
 ```
 
+## Important notes
+
 This action will only work on pull request events:
 - [pull_request](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request)
     - opened
@@ -65,6 +67,9 @@ This action will only work on pull request events:
     - opened
     - edited
     - synchronize
+
+When using `pull_request_target` the `token` input needs to be a personal access token (PAT), because of GitHubs security settings.\
+If you need help with creating a PAT, check out [this](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) guide.
 
 #### Further reading
 There is a pattern used to find the linked issues in the pull request body.\
