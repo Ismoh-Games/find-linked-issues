@@ -36,6 +36,7 @@ jobs:
         run: |
           echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
           echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+          echo "pull-request-labels: ${{ steps.find-linked-issues.outputs.pull-request-labels }}"
           
       - name: Echo output when success
         if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues == 'True' }}

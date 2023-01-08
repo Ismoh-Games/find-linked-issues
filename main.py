@@ -69,7 +69,7 @@ def main():
     """ Find issues with GitHub API """
     print("Fetching issues...")
     url = "https://api.github.com/search/issues?q=" \
-          + f"repo:{repository} is:issue is:open linked:pr pr:{pull_request_number}" \
+          + f"repo:{repository} is:issue is:open linked:pr pr:{pull_request_number} " \
           + " ".join(str(i) for i in issue_numbers)
     print(f"Request url: {url}")
     headers = {
@@ -115,14 +115,19 @@ def main():
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
         print(f"linked-issues={response_json_issue_numbers}", file=fh)
 
+    github = Github(token)
+
     """ Copy labels from issues to pull request """
     if copy_issues_labels:
         print("Copying labels from issues to pull request...")
-        github = Github(token)
         if response_json_issues_labels:
             github.get_repo(repository).get_pull(int(pull_request_number)).add_to_labels(
                 " ".join(str(label) for label in response_json_issues_labels))
             print("Labels copied successfully")
+
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        print(f"pull-request-labels={github.get_repo(repository).get_pull(int(pull_request_number)).get_labels()}",
+              file=fh)
 
 
 if __name__ == "__main__":
