@@ -18,6 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Run Action
+        id: find-linked-issues
         # we can give directory path that contains action.yaml or repo address in username/repository_name@version format
         # in our case it would be nashmaniac/create-issue-action@v1.0 where v1.0 is the version of action
         # for now we will give directory path. The directory must contain action.yaml
@@ -31,16 +32,16 @@ jobs:
           copy-issues-labels: true # optional
       - name:
         run: |
-          echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
-          echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+          echo "is-pull-request-linked-to-issues: '${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}'"
+          echo "linked-issues: '${{ steps.find-linked-issues.outputs.linked-issues }}'"
       - name:
         if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}
         run: |
-          echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
-          echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+          echo "is-pull-request-linked-to-issues: '${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}'"
+          echo "linked-issues: '${{ steps.find-linked-issues.outputs.linked-issues }}'"
       - name:
         if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }} == false
         run: |
-          echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
-          echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+          echo "is-pull-request-linked-to-issues: '${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}'"
+          echo "linked-issues: '${{ steps.find-linked-issues.outputs.linked-issues }}'"
           exit 1

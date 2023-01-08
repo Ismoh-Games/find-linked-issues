@@ -79,7 +79,7 @@ def main():
 
     if response.status_code != 200:
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f"is_pull_request_linked_to_issues={False}", file=fh)
+            print(f"is-pull-request-linked-to-issues={False}", file=fh)
         raise RuntimeError(f"Error fetching issues: {json.dumps(response.json(), indent=2)}")
 
     response_json = response.json()
@@ -87,7 +87,7 @@ def main():
 
     if response_json["total_count"] == 0:
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f"is_pull_request_linked_to_issues={False}", file=fh)
+            print(f"is-pull-request-linked-to-issues={False}", file=fh)
         raise RuntimeError("Error fetching issues, 'total_response' = 0")
 
     response_json_issue_numbers = []
@@ -106,14 +106,14 @@ def main():
 
     if not response_json_issue_numbers:
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f"is_pull_request_linked_to_issues={False}", file=fh)
+            print(f"is-pull-request-linked-to-issues={False}", file=fh)
         raise RuntimeError(f"Error fetching issues, didn't find issue number in response: {response_json}")
 
     print(f"Issues fetched successfully: {response_json_issue_numbers}")
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-        print(f"is_pull_request_linked_to_issues={True}", file=fh)
+        print(f"is-pull-request-linked-to-issues={True}", file=fh)
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-        print(f"linked_issues={response_json_issue_numbers}", file=fh)
+        print(f"linked-issues={response_json_issue_numbers}", file=fh)
 
     """ Copy labels from issues to pull request """
     if copy_issues_labels:
