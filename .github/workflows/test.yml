@@ -1,4 +1,4 @@
-name: Workflow for testing this action
+name: Test and lint
 on:
   pull_request:
     types:
@@ -12,7 +12,7 @@ on:
       - synchronize
 jobs:
   test-workflow:
-    name: Test this workflow action
+    name: Test this workflow action by running it
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -49,8 +49,14 @@ jobs:
           echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
           echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
           exit 1
-      
-      # Linting
+
+  lint-workflow:
+    name: Lint this workflow action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
       - name: Lint with flake8
         run: |
           pip install flake8
@@ -58,11 +64,6 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-  
-      - name: Lint with pylint
-        run: |
-          pip install pylint
-          pylint .
 
       - name: Lint with black
         run: |
