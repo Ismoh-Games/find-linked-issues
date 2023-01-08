@@ -58,7 +58,13 @@ Example workflow:
 
 This action will only work on pull request events:
 - [pull_request](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request)
+    - opened
+    - edited
+    - synchronize
 - [pull_request_target](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request_target)
+    - opened
+    - edited
+    - synchronize
 
 #### Further reading
 There is a pattern used to find the linked issues in the pull request body.\
