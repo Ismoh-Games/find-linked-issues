@@ -90,19 +90,27 @@ def main():
             print(f"is-pull-request-linked-to-issues={False}", file=fh)
         raise RuntimeError("Error fetching issues, 'total_response' = 0")
 
+    github = Github(token)
+    pull_request_labels = [label.name for label in github.get_repo(repository).get_pull(
+        int(pull_request_number)).get_labels()]
+    print(f"Pull request labels: {pull_request_labels}")
+
     response_json_issue_numbers = []
-    response_json_issues_labels = []
     for item in response_json["items"]:
         print(f"item: {json.dumps(item, indent=2)}")
         print(f"item['number']: {item['number']}")
         if str(item["number"]) in issue_numbers:
             response_json_issue_numbers.append(item["number"])
             print(f"Found issue number: {item['number']}")
+            """ Copy labels from issues to pull request """
             if copy_issues_labels:
+                print("Copying labels from issues to pull request...")
                 for label in item["labels"]:
-                    if label["name"] and label["name"] not in response_json_issues_labels:
-                        response_json_issues_labels.append(label["name"])
+                    if label["name"] and label["name"] not in pull_request_labels:
+                        print(f"Adding label: {label['name']}")
+                        github.get_repo(repository).get_pull(int(pull_request_number)).add_to_labels(str(label["name"]))
                         print(f"Found and added issue label: {label['name']}")
+                print("Labels copied successfully")
 
     if not response_json_issue_numbers:
         with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
@@ -114,20 +122,10 @@ def main():
         print(f"is-pull-request-linked-to-issues={True}", file=fh)
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
         print(f"linked-issues={response_json_issue_numbers}", file=fh)
-
-    github = Github(token)
-
-    """ Copy labels from issues to pull request """
-    if copy_issues_labels:
-        print("Copying labels from issues to pull request...")
-        if response_json_issues_labels:
-            github.get_repo(repository).get_pull(int(pull_request_number)).add_to_labels(
-                " ".join(str(label) for label in response_json_issues_labels))
-            print("Labels copied successfully")
-
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-        print(f"pull-request-labels={github.get_repo(repository).get_pull(int(pull_request_number)).get_labels()}",
-              file=fh)
+        pull_request_labels = [label.name for label in github.get_repo(repository).get_pull(
+            int(pull_request_number)).get_labels()]
+        print(f"pull-request-labels={pull_request_labels}", file=fh)
 
 
 if __name__ == "__main__":
