@@ -121,12 +121,13 @@ def main():
     if copy_issues_labels:
         print("Copying labels from issues to pull request...")
         if response_json_issues_labels:
-            github.get_repo(repository).get_pull(int(pull_request_number))\
-                .add_to_labels(repr(response_json_issues_labels))
+            for label in response_json_issues_labels:
+                github.get_repo(repository).get_pull(int(pull_request_number))\
+                    .add_to_labels(str(label))
             print("Labels copied successfully")
 
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-        print(f"pull-request-labels={github.get_repo(repository).get_pull(int(pull_request_number)).get_labels()}",
+        print(f"pull-request-labels={list(github.get_repo(repository).get_pull(int(pull_request_number)).get_labels())}",
               file=fh)
 
 
