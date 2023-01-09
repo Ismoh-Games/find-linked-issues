@@ -12,7 +12,6 @@ on:
       - synchronize
 jobs:
   test-workflow:
-    if: "! github.event.pull_request.head.repo.fork"
     name: Test this workflow action
     runs-on: ubuntu-latest
     steps:
