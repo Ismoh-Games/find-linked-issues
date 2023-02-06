@@ -2,7 +2,7 @@
 cffi==1.15.1
 charset-normalizer==3.0.1
 Deprecated==1.2.13
-fastcore==1.5.27
+fastcore==1.5.28
 ghapi==1.0.3
 idna==3.4
 packaging==23.0
