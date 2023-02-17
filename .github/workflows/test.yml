@@ -31,8 +31,9 @@ jobs:
           pull-request-number: ${{ github.event.pull_request.number }}
           pull-request-body: ${{ github.event.pull_request.body }}
           copy-issues-labels: true # optional
+          include-closed-issues: true # optional
           
-      - name: Echo output
+      - name: Echo output in general
         run: |
           echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
           echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
@@ -43,12 +44,14 @@ jobs:
         run: |
           echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
           echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+          echo "pull-request-labels: ${{ steps.find-linked-issues.outputs.pull-request-labels }}"
           
       - name: Echo output when failure and exit
         if: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues == 'False' }}
         run: |
           echo "is-pull-request-linked-to-issues: ${{ steps.find-linked-issues.outputs.is-pull-request-linked-to-issues }}"
           echo "linked-issues: ${{ steps.find-linked-issues.outputs.linked-issues }}"
+          echo "pull-request-labels: ${{ steps.find-linked-issues.outputs.pull-request-labels }}"
           exit 1
 
   lint-workflow:

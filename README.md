@@ -20,6 +20,7 @@ You can also do this [manually](https://docs.github.com/en/issues/tracking-your-
 | `pull-request-number`              | The pull request number to use. If pull requests are linked.         | **required**             | `${{ github.event.pull_request.number }}` |
 | `pull-request-body`                | The pull request body to search for keywords like `Resolves #48`.    | **required**             | `${{ github.event.pull_request.body }}`   |
 | `copy-issues-labels`               | Copy the labels of the linked issues to the pull request.            | optional                 | `false`                                   |
+| `include-closed-issues`            | Includes closed issues, when searching for linked issues.            | optional                 | `false`                                   |
 | **Name OUTPUTS**                   | **Description**                                                      | **Values**               | **Defaults**                              |
 | `is-pull-request-linked-to-issues` | Whether the pull request is linked to issues or not.                 | `'True'` or `'False'`    | `'False'`                                 |
 | `linked-issues`                    | List of issues that are linked to the pull request.                  | `[1, 2, 4, 82, 124]`     | `[]`                                      |   
@@ -37,6 +38,7 @@ Example workflow:
         pull-request-number: ${{ github.event.pull_request.number }}
         pull-request-body: ${{ github.event.pull_request.body }}
         copy-issues-labels: true # optional
+        include-closed-issues: true # optional
     
     # Use the output from the `find-linked-issues` step
     - name: Use the output

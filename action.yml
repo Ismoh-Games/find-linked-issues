@@ -24,7 +24,11 @@ inputs:
     description: Copy the labels of the linked issues to the pull request. (optional)
     required: false
     default: 'false'
-  
+  include-closed-issues:
+    description: Includes closed issues, when searching for linked issues. (optional)
+    required: false
+    default: 'false'
+
 outputs:
   is-pull-request-linked-to-issues:
     description: Whether the pull request is linked to issues or not.
