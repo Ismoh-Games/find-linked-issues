@@ -31,6 +31,7 @@ jobs:
           pull-request-number: ${{ github.event.pull_request.number }}
           pull-request-body: ${{ github.event.pull_request.body }}
           copy-issues-labels: true # optional
+          include-closed-issues: true # optional
           
       - name: Echo output
         run: |

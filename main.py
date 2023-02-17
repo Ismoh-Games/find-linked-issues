@@ -39,6 +39,16 @@ def main():
     except KeyError:
         copy_issues_labels = False
 
+    try:
+        include_closed_issues = os.environ['INPUT_INCLUDE-CLOSED-ISSUES']
+    except KeyError:
+        include_closed_issues = False
+
+    if include_closed_issues:
+        is_open = "is:open"
+    else:
+        is_open = ""
+
     print("Environment variables fetched successfully")
 
     """ Get pull request """
@@ -69,7 +79,7 @@ def main():
     """ Find issues with GitHub API """
     print("Fetching issues...")
     url = "https://api.github.com/search/issues?q=" \
-          + f"repo:{repository} is:issue is:open linked:pr pr:{pull_request_number} " \
+          + f"repo:{repository} is:issue {is_open} linked:pr pr:{pull_request_number} " \
           + " ".join(str(i) for i in issue_numbers)
     print(f"Request url: {url}")
     headers = {
