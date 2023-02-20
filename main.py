@@ -45,9 +45,9 @@ def main():
         include_closed_issues = False
 
     if include_closed_issues:
-        is_open = "is:open"
-    else:
         is_open = ""
+    else:
+        is_open = "is:open"
 
     print("Environment variables fetched successfully")
 
