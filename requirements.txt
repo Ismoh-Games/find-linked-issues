@@ -1,7 +1,7 @@
 certifi==2023.5.7
 cffi==1.15.1
 charset-normalizer==3.1.0
-Deprecated==1.2.13
+Deprecated==1.2.14
 fastcore==1.5.29
 ghapi==1.0.3
 idna==3.4
