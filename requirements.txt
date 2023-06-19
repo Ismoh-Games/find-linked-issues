@@ -3,7 +3,7 @@ cffi==1.15.1
 charset-normalizer==3.1.0
 Deprecated==1.2.14
 fastcore==1.5.29
-ghapi==1.0.3
+ghapi==1.0.4
 idna==3.4
 packaging==23.1
 pycparser==2.21
