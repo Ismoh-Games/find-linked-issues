@@ -31,7 +31,7 @@ Example workflow:
 ```yaml
     - name: Find linked issues
       id: find-linked-issues
-      uses: Ismoh-Games/find-linked-issues@v0.0.1
+      uses: Ismoh-Games/find-linked-issues@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         repository: ${{ github.repository }}
