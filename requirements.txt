@@ -1,6 +1,6 @@
 certifi==2023.7.22
 cffi==1.16.0
-charset-normalizer==3.2.0
+charset-normalizer==3.3.0
 Deprecated==1.2.14
 fastcore==1.5.29
 ghapi==1.0.4
