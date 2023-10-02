@@ -5,7 +5,7 @@ Deprecated==1.2.14
 fastcore==1.5.29
 ghapi==1.0.4
 idna==3.4
-packaging==23.1
+packaging==23.2
 pycparser==2.21
 PyGithub==2.1.1
 PyJWT==2.8.0
