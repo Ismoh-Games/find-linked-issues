@@ -1,5 +1,5 @@
 # action will be executed in a python3 container
-FROM python:3.11.5
+FROM python:3.12.0rc2-slim-bullseye
 # copy requirements.txt to the container
 COPY requirements.txt /requirements.txt
 # install dependencies
