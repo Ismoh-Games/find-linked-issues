@@ -17,7 +17,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+      
+      - name: Install missing gcc dependency for building python dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y build-essential
+
       - name: Run Action
         id: find-linked-issues
         # we can give directory path that contains action.yaml or repo address in username/repository_name@version format
