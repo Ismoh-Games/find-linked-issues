@@ -5,11 +5,11 @@ FROM python:3.13.0a2-slim-bullseye
 COPY requirements.txt /requirements.txt
 
 # install dependencies
-RUN apt-get update -y && \
-    apt install --fix-broken && \
-    apt-get install build-essential libssl-dev libffi-dev python-dev python3-dev && \
-    pip install --upgrade pip && \
-    pip install -r /requirements.txt
+RUN apt-get update -y
+RUN apt install --fix-broken 
+RUN apt-get install build-essential libssl-dev libffi-dev python-dev python3-dev 
+RUN pip install --upgrade pip 
+RUN pip install -r /requirements.txt
 
 # copy main.py to the container
 COPY main.py /main.py
