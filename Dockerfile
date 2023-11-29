@@ -6,9 +6,9 @@ COPY requirements.txt /requirements.txt
 
 # install dependencies
 RUN apt-get update -y
-RUN apt-get install -y --fix-broken 
-RUN apt-get install -y build-essential libssl-dev libffi-dev python-dev python3-dev 
-RUN pip install --upgrade pip 
+RUN apt-get install -y build-essential libssl-dev libffi-dev python3-dev
+RUN apt-get install -y --fix-broken
+RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
 
 # copy main.py to the container
