@@ -1,10 +1,12 @@
-# action will be executed in a python3 container
-FROM python:3.12.0rc2-slim-bullseye
-# copy requirements.txt to the container
-COPY requirements.txt /requirements.txt
-# install dependencies
-RUN pip install -r /requirements.txt
-# copy main.py to the container
-COPY main.py /main.py
-# run main.py
-CMD [ "python", "/main.py"]
+FROM python:3.13.0a2-slim-bullseye
+
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+COPY requirements.txt .
+RUN pip3 install --only-binary=:all: -r requirements.txt
+
+COPY main.py .
+
+CMD [ "python3", "/main.py"]
