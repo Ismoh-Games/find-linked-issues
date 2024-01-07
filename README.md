@@ -3,13 +3,12 @@
 [![test `pull_request`](https://img.shields.io/github/actions/workflow/status/ismoh-games/find-linked-issues/test.yml?event=pull_request&label=test%20%60pull_request%60&style=for-the-badge)](https://github.com/Ismoh-Games/find-linked-issues/actions/workflows/test.yml)
 [![test `pull_request_target`](https://img.shields.io/github/actions/workflow/status/ismoh-games/find-linked-issues/test.yml?event=pull_request_target&label=test%20%60pull_request_target%60&style=for-the-badge)](https://github.com/Ismoh-Games/find-linked-issues/actions/workflows/test.yml)
 
-Marketplace action for finding the linked issues of a pull request. 
+Marketplace action for finding the linked issues of a pull request.
 
 ## Usage
 
 Make use of GitHub's [keywords](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) to link issues to a pull request by default.\
 You can also do this [manually](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#manually-linking-a-pull-request-or-branch-to-an-issue-using-the-issue-sidebar) in the 'development' section of the pull request sidebar on the right.
-
 
 ### Inputs and outputs
 
@@ -23,7 +22,7 @@ You can also do this [manually](https://docs.github.com/en/issues/tracking-your-
 | `include-closed-issues`            | Includes closed issues, when searching for linked issues.            | optional                 | `false`                                   |
 | **Name OUTPUTS**                   | **Description**                                                      | **Values**               | **Defaults**                              |
 | `is-pull-request-linked-to-issues` | Whether the pull request is linked to issues or not.                 | `'True'` or `'False'`    | `'False'`                                 |
-| `linked-issues`                    | List of issues that are linked to the pull request.                  | `[1, 2, 4, 82, 124]`     | `[]`                                      |   
+| `linked-issues`                    | List of issues that are linked to the pull request.                  | `[1, 2, 4, 82, 124]`     | `[]`                                      |
 | `pull-request-labels`              | List of labels assigned to this pull request.                        | `[bug, enhancement, ..]` | `[]`                                      |
 
 Example workflow:
@@ -61,19 +60,34 @@ Example workflow:
 ## Important notes
 
 This action will only work on pull request events:
+
 - [pull_request](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request)
-    - opened
-    - edited
-    - synchronize
+  - opened
+  - edited
+  - synchronize
 - [pull_request_target](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request_target)
-    - opened
-    - edited
-    - synchronize
+  - opened
+  - edited
+  - synchronize
 
 When using `pull_request_target` the `token` input needs to be a personal access token (PAT), because of GitHubs security settings.\
 If you need help with creating a PAT, check out [this](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) guide.
 
 #### Further reading
+
 There is a pattern used to find the linked issues in the pull request body.\
 To get insights on how this pattern works, check out the [regex101.com](https://regex101.com/r/f60fNx/4)!\
 When having problems with the pattern, you can test it out on [pythex.org](https://pythex.org).
+
+## Local development
+
+Windows:
+
+```bash
+pip install virtualenv
+virtualenv --python %PYTHON_PATH%\\python.exe venv
+.\venv\Scripts\activate
+# python.exe -m pip install --upgrade pip
+pip install --only-binary=:all: -r requirements.txt
+#deactivate
+```
